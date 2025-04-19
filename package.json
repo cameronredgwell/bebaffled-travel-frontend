@@ -1,5 +1,5 @@
 {
-"name": "bebaffled-travel-frontend"
+  "name": "bebaffled-travel-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -18,8 +18,4 @@
     "postcss": "^8.4.21",
     "tailwindcss": "^3.4.1"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a179509 (Working frontend structure)
