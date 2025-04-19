@@ -1,6 +1,7 @@
-export default function RegisterPage() {
-  return <div className="p-6 text-lg font-semibold">Register Page</div>;
-}
 export default function Register() {
-  return <main className="p-6"><h1>Register Page</h1></main>;
+  return (
+    <main className="p-6">
+      <h1 className="text-4xl font-bold">Register Page</h1>
+    </main>
+  );
 }

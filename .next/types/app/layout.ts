@@ -1,4 +1,4 @@
-// File: /Users/cam/BB_Live/app/layout.js
+// File: /Users/cam/Desktop/BB_Live_Clean/app/layout.js
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

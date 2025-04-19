@@ -1,4 +1,4 @@
-// File: /Users/cam/BB_Live/app/page.jsx
+// File: /Users/cam/Desktop/BB_Live_Clean/app/page.jsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
