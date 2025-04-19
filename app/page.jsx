@@ -1,3 +1,4 @@
+// app/page.jsx
 import Link from 'next/link';
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
         Track & compare your Accor bookings — smarter, faster.
       </p>
       <p className="mt-6 text-sm text-gray-400">
-        <Link href="/login" className="underline text-blue-500">Login</Link> or <Link href="/register" className="underline text-blue-500">Register</Link> to get started
+        Login or register to get started
       </p>
     </main>
   );
