@@ -1,27 +1,31 @@
 // app/layout.js
 import './globals.css';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata = {
   title: 'BeBaffled Travel',
-  description: 'Track & compare your Accor bookings — smarter, faster.',
+  description: 'Your Accor booking power tool',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-white text-gray-900 font-sans">
-        <header className="p-4 bg-black text-white flex justify-between items-center">
-          <h1 className="text-xl font-bold">BeBaffled 🚀</h1>
-          <nav className="space-x-4">
-            <Link href="/">Home</Link>
-            <Link href="/bookings">Bookings</Link>
-            <Link href="/profile">Profile</Link>
-            <Link href="/login">Login</Link>
-            <Link href="/register">Register</Link>
+      <body>
+        <header className="bg-white shadow-md p-4 flex items-center justify-between">
+          <Link href="/">
+            <Image src="/logo.png" alt="BeBaffled Logo" width={150} height={50} />
+          </Link>
+          <nav className="flex gap-4 text-sm">
+            <Link href="/bookings" className="hover:underline">Bookings</Link>
+            <Link href="/profile" className="hover:underline">Profile</Link>
+            <Link href="/login" className="hover:underline">Login</Link>
+            <Link href="/register" className="hover:underline">Register</Link>
           </nav>
         </header>
-        <main className="p-6">{children}</main>
+        <main className="p-4">
+          {children}
+        </main>
       </body>
     </html>
   );
