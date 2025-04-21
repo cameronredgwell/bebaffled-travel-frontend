@@ -1,38 +1,51 @@
-
 'use client';
 import { useState } from 'react';
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form)
+      body: JSON.stringify({ name, email, password }),
     });
+
     const data = await res.json();
     alert(data.message);
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Create Your Account</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" name="name" placeholder="Name" className="w-full p-2 border" onChange={handleChange} />
-        <input type="email" name="email" placeholder="Email" className="w-full p-2 border" onChange={handleChange} />
-        <input type="password" name="password" placeholder="Password" className="w-full p-2 border" onChange={handleChange} />
-        <button type="submit" className="w-full bg-blue-600 text-white py-2">Register</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold">Register</h1>
+      <input
+        className="w-full p-2 border"
+        placeholder="Name"
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        className="w-full p-2 border"
+        placeholder="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className="w-full p-2 border"
+        placeholder="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button className="bg-black text-white px-4 py-2" type="submit">
+        Sign Up
+      </button>
+    </form>
   );
 }
