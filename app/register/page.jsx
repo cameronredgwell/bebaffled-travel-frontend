@@ -2,37 +2,37 @@
 import { useState } from 'react';
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
 
-  const handleSubmit = e => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registering:', { email, password });
-    alert(`Registered with ${email}`);
-    // 🔜 Connect to backend / DB
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form)
+    });
+
+    const data = await res.json();
+    alert(data.message);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold">Register</h1>
-      <input
-        className="w-full p-2 border"
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-      />
-      <input
-        className="w-full p-2 border"
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <button className="bg-black text-white px-4 py-2" type="submit">
-        Sign Up
-      </button>
-    </form>
+    <div className="p-6 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Create Your Account</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input type="text" name="name" placeholder="Name" className="w-full p-2 border" onChange={handleChange} required />
+        <input type="email" name="email" placeholder="Email" className="w-full p-2 border" onChange={handleChange} required />
+        <input type="password" name="password" placeholder="Password" className="w-full p-2 border" onChange={handleChange} required />
+        <button type="submit" className="w-full bg-blue-600 text-white py-2">Register</button>
+      </form>
+    </div>
   );
 }
-
