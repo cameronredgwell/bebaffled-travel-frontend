@@ -27,8 +27,9 @@ export default function LoginPage() {
       const data = await res.json();
       console.log('Login response:', data);
 
-      if (res.ok && data.user) {
+      if (res.ok && data.token) {
         localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
         router.push('/dashboard');
       } else {
         setError(data.message || 'Login failed');
