@@ -1,35 +1,39 @@
 
-'use client';
+'use client'
+
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [form, setForm] = useState({
-    email: '',
-    password: ''
-  });
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const res = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form)
+      body: JSON.stringify({ email, password }),
     });
-    const data = await res.json();
-    alert(data.message);
+
+    if (res.ok) {
+      router.push('/dashboard');
+    } else {
+      const data = await res.json();
+      setError(data.error || 'Login failed');
+    }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="email" name="email" placeholder="Email" className="w-full p-2 border" onChange={handleChange} />
-        <input type="password" name="password" placeholder="Password" className="w-full p-2 border" onChange={handleChange} />
-        <button type="submit" className="w-full bg-blue-600 text-white py-2">Login</button>
+    <div>
+      <h1>Login</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <form onSubmit={handleLogin}>
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <button type="submit">Login</button>
       </form>
     </div>
   );
