@@ -1,16 +1,26 @@
-// app/page.jsx
-import Link from 'next/link';
+'use client'
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
   return (
-    <main className="p-6 text-center">
-      <h1 className="text-4xl font-bold mb-2">BeBaffled Travel 🧳</h1>
-      <p className="text-lg text-gray-600">
-        Track & compare your Accor bookings — smarter, faster.
-      </p>
-      <p className="mt-6 text-sm text-gray-400">
-        Login or register to get started
-      </p>
+    <main>
+      {user ? (
+        <>
+          <h1>Welcome, {user.name}</h1>
+          <p>Bookings and form will appear here.</p>
+        </>
+      ) : (
+        <h1>Please login to continue.</h1>
+      )}
     </main>
   );
 }
