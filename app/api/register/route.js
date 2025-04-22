@@ -1,19 +1,19 @@
-import { connectToDatabase } from '../../lib/mongodb';
-import User from '../../models/User';
-import bcrypt from 'bcrypt';
+
+import dbConnect from '@/lib/mongodb';
+import User from '@/models/User';
+import bcrypt from 'bcryptjs';
 
 export async function POST(req) {
-  const { name, email, password } = await req.json();
+  try {
+    await dbConnect();
+    const { name, email, password, accorMemberNumber } = await req.json();
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return new Response('Email already exists', { status: 400 });
 
-  await connectToDatabase();
-
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return new Response(JSON.stringify({ message: 'Email already in use' }), { status: 400 });
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await User.create({ name, email, passwordHash, accorMemberNumber });
+    return new Response(JSON.stringify({ success: true, user }), { status: 201 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ name, email, password: hashedPassword });
-
-  return new Response(JSON.stringify({ message: 'User registered', user: newUser }), { status: 201 });
 }
