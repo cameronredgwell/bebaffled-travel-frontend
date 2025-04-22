@@ -1,25 +1,24 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
 
-export default function Home() {
+export default function HomePage() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(storedUser);
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
   return (
-    <main>
+    <main className="p-6 max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4">BeBaffled Travel 🧳</h1>
+      <p className="mb-4">Track & compare your Accor bookings — smarter, faster.</p>
       {user ? (
-        <>
-          <h1>Welcome, {user.name}</h1>
-          <p>Bookings and form will appear here.</p>
-        </>
+        <p className="text-lg font-medium text-green-700">Welcome, {user.name}!</p>
       ) : (
-        <h1>Please login to continue.</h1>
+        <p className="text-sm text-gray-600">Login or register to get started</p>
       )}
     </main>
   );
