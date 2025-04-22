@@ -1,11 +1,10 @@
-
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  passwordHash: String,
-  accorMemberNumber: String,
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  accorMemberNumber: { type: String, required: false },
 }, { timestamps: true });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);
