@@ -2,35 +2,34 @@
 import { useState } from 'react';
 
 export default function BookingsPage() {
-  const [hotel, setHotel] = useState('');
-  const [date, setDate] = useState('');
+  const [form, setForm] = useState({ hotelName: '', checkInDate: '', nights: 1 });
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = e => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Booking added:', { hotel, date });
-    alert(`Booking added: ${hotel} on ${date}`);
-    // 🔜 Connect to backend
+    const res = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
+    setMessage(data.success ? 'Booking saved!' : data.error);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold">Add Booking</h1>
-      <input
-        className="w-full p-2 border"
-        placeholder="Hotel name"
-        value={hotel}
-        onChange={e => setHotel(e.target.value)}
-      />
-      <input
-        className="w-full p-2 border"
-        placeholder="Booking date"
-        type="date"
-        value={date}
-        onChange={e => setDate(e.target.value)}
-      />
-      <button className="bg-black text-white px-4 py-2" type="submit">
-        Add Booking
-      </button>
-    </form>
+    <div className="p-6 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Add Booking</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input name="hotelName" placeholder="Hotel Name" className="w-full p-2 border" onChange={handleChange} />
+        <input name="checkInDate" type="date" className="w-full p-2 border" onChange={handleChange} />
+        <input name="nights" type="number" min="1" className="w-full p-2 border" onChange={handleChange} />
+        <button type="submit" className="w-full bg-blue-600 text-white py-2">Submit</button>
+      </form>
+      {message && <p className="mt-4 text-center">{message}</p>}
+    </div>
   );
 }
