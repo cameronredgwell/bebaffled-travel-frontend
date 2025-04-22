@@ -25,8 +25,9 @@ export default function LoginPage() {
       });
 
       const data = await res.json();
+      console.log('Login response:', data);
 
-      if (res.ok) {
+      if (res.ok && data.user) {
         localStorage.setItem('user', JSON.stringify(data.user));
         router.push('/dashboard');
       } else {
