@@ -5,16 +5,29 @@ import { useRouter } from 'next/navigation';
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (!storedUser) {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        router.push('/login');
+      } else {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser?.name) {
+          setUser(parsedUser);
+        } else {
+          throw new Error("Invalid user format");
+        }
+      }
+    } catch (err) {
+      console.error("Error parsing user from localStorage:", err);
+      setError(true);
       router.push('/login');
-    } else {
-      setUser(JSON.parse(storedUser));
     }
   }, []);
 
+  if (error) return <p className="text-red-500">Something went wrong. Please login again.</p>;
   if (!user) return <p>Loading dashboard...</p>;
 
   return (
