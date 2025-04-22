@@ -1,31 +1,26 @@
+'use client';
+
+import Link from 'next/link';
+import './globals.css';
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: 'Arial, sans-serif' }}>
-        <header style={{
-          background: '#1a202c',
-          padding: '1rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          color: 'white'
-        }}>
-          <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-            BeBaffled Travel 🌏
+      <body>
+        <header className="p-4 bg-gray-100 shadow-md">
+          <div className="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 className="text-xl font-bold">BeBaffled Travel 🌏</h1>
+            <nav className="space-x-4 text-sm">
+              <Link href="/">Home</Link>
+              <Link href="/profile">Profile</Link>
+              <Link href="/bookings">Bookings</Link>
+              <Link href="/login">Login</Link>
+              <Link href="/register">Register</Link>
+            </nav>
           </div>
-          <nav>
-            <a href="/" style={{ marginRight: '1rem', color: 'white' }}>Home</a>
-            <a href="/bookings" style={{ marginRight: '1rem', color: 'white' }}>Bookings</a>
-            <a href="/profile" style={{ marginRight: '1rem', color: 'white' }}>Profile</a>
-            <a href="/login" style={{ marginRight: '1rem', color: 'white' }}>Login</a>
-            <a href="/register" style={{ color: 'white' }}>Register</a>
-          </nav>
         </header>
-        <main style={{ padding: '2rem' }}>
-          {children}
-        </main>
+        <main className="max-w-4xl mx-auto p-4">{children}</main>
       </body>
     </html>
-  );
+    );
 }
